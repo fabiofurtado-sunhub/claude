@@ -1,0 +1,4 @@
+facebook-business==24.0.1
+python-dotenv==1.1.0
+pandas==2.2.3
+tabulate==0.9.0
