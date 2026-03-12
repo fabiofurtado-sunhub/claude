@@ -1,0 +1,26 @@
+{
+  "name": "mx3-agents",
+  "version": "1.0.0",
+  "description": "Multi-Agent AI para pré-vendas no WhatsApp — MX3 Aceleradora Comercial",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/webhook/index.js",
+    "dev": "tsx watch src/webhook/index.ts",
+    "typecheck": "tsc --noEmit",
+    "seed": "tsx src/scripts/seed-embeddings.ts",
+    "lint": "eslint src --ext .ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.40.0",
+    "@supabase/supabase-js": "^2.46.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
