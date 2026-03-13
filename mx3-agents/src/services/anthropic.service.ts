@@ -9,150 +9,150 @@ import Anthropic from '@anthropic-ai/sdk'
 // ──────────────────────────────────────────────────────────────────────────────
 const SEMANTIC_DIMENSIONS = [
   // === DOR COMERCIAL (20 dimensões) ===
-  'time_comercial_desorganizado',       // 0
-  'processo_de_vendas_inexistente',     // 1
-  'receita_imprevisivelou_irregular',   // 2
-  'dependencia_de_indicacoes',          // 3
-  'marketing_sem_retorno_mensuravel',   // 4
-  'cac_elevado',                        // 5
-  'churn_alto_ou_invisivel',            // 6
-  'metas_comerciais_nao_batidas',       // 7
-  'vendedores_sem_playbook_ou_script',  // 8
-  'pipeline_sem_controle_ou_visibilidade', // 9
-  'dependencia_de_vendedor_estrela',    // 10
-  'ciclo_de_venda_muito_longo',         // 11
-  'proposta_comercial_sem_padrao',      // 12
-  'perda_frequente_para_concorrencia',  // 13
-  'cliente_sumindo_sem_explicacao',     // 14
-  'crescimento_travado_ou_estagnado',   // 15
-  'dificuldade_de_escalar_vendas',      // 16
-  'time_sem_treinamento_comercial',     // 17
-  'gestao_comercial_por_feeling',       // 18
-  'falta_de_previsibilidade_receita',   // 19
+  'time_comercial_desorganizado',
+  'processo_de_vendas_inexistente',
+  'receita_imprevisivelou_irregular',
+  'dependencia_de_indicacoes',
+  'marketing_sem_retorno_mensuravel',
+  'cac_elevado',
+  'churn_alto_ou_invisivel',
+  'metas_comerciais_nao_batidas',
+  'vendedores_sem_playbook_ou_script',
+  'pipeline_sem_controle_ou_visibilidade',
+  'dependencia_de_vendedor_estrela',
+  'ciclo_de_venda_muito_longo',
+  'proposta_comercial_sem_padrao',
+  'perda_frequente_para_concorrencia',
+  'cliente_sumindo_sem_explicacao',
+  'crescimento_travado_ou_estagnado',
+  'dificuldade_de_escalar_vendas',
+  'time_sem_treinamento_comercial',
+  'gestao_comercial_por_feeling',
+  'falta_de_previsibilidade_receita',
 
   // === URGÊNCIA E TIMING (15 dimensões) ===
-  'urgencia_alta_e_explicita',          // 20
-  'prazo_definido_ou_deadline',         // 21
-  'problema_critico_acontecendo_agora', // 22
-  'crescimento_estagnado_ha_meses',     // 23
-  'socio_ou_board_cobrando_resultado',  // 24
-  'meta_anual_em_risco',                // 25
-  'competidor_crescendo_na_frente',     // 26
-  'janela_de_oportunidade_de_mercado',  // 27
-  'investimento_disponivel_e_aprovado', // 28
-  'planejamento_do_proximo_ano_em_curso', // 29
-  'sazonalidade_critica_se_aproximando', // 30
-  'meta_trimestral_em_risco',           // 31
-  'timing_neutro_sem_urgencia',         // 32
-  'explorando_opcoes_sem_pressa',       // 33
-  'curiosidade_sem_dor_imediata',       // 34
+  'urgencia_alta_e_explicita',
+  'prazo_definido_ou_deadline',
+  'problema_critico_acontecendo_agora',
+  'crescimento_estagnado_ha_meses',
+  'socio_ou_board_cobrando_resultado',
+  'meta_anual_em_risco',
+  'competidor_crescendo_na_frente',
+  'janela_de_oportunidade_de_mercado',
+  'investimento_disponivel_e_aprovado',
+  'planejamento_do_proximo_ano_em_curso',
+  'sazonalidade_critica_se_aproximando',
+  'meta_trimestral_em_risco',
+  'timing_neutro_sem_urgencia',
+  'explorando_opcoes_sem_pressa',
+  'curiosidade_sem_dor_imediata',
 
   // === PERFIL E QUALIFICAÇÃO DA EMPRESA (15 dimensões) ===
-  'faturamento_acima_de_100k_mes',      // 35
-  'faturamento_entre_50k_e_100k_mes',   // 36
-  'faturamento_abaixo_de_50k_mes',      // 37
-  'tem_time_de_vendas_ativo',           // 38
-  'empresa_de_servicos_b2b',            // 39
-  'empresa_de_produto_ou_saas',         // 40
-  'empresa_b2c_ou_varejo',              // 41
-  'fundador_ou_socio_fala_conosco',     // 42
-  'gestor_ou_diretor_comercial',        // 43
-  'empresa_em_fase_de_crescimento',     // 44
-  'empresa_madura_buscando_otimizacao', // 45
-  'startup_em_fase_inicial',            // 46
-  'empresa_em_encolhimento',            // 47
-  'indicado_por_cliente_mx3',           // 48
-  'veio_de_anuncio_ou_conteudo',        // 49
+  'faturamento_acima_de_100k_mes',
+  'faturamento_entre_50k_e_100k_mes',
+  'faturamento_abaixo_de_50k_mes',
+  'tem_time_de_vendas_ativo',
+  'empresa_de_servicos_b2b',
+  'empresa_de_produto_ou_saas',
+  'empresa_b2c_ou_varejo',
+  'fundador_ou_socio_fala_conosco',
+  'gestor_ou_diretor_comercial',
+  'empresa_em_fase_de_crescimento',
+  'empresa_madura_buscando_otimizacao',
+  'startup_em_fase_inicial',
+  'empresa_em_encolhimento',
+  'indicado_por_cliente_mx3',
+  'veio_de_anuncio_ou_conteudo',
 
   // === OBJEÇÕES (15 dimensões) ===
-  'objecao_preco_muito_caro',           // 50
-  'objecao_sem_tempo_agora',            // 51
-  'objecao_ja_tentei_consultoria_antes', // 52
-  'objecao_nao_e_o_momento_certo',      // 53
-  'objecao_preciso_pensar_mais',        // 54
-  'objecao_preciso_falar_com_socio',    // 55
-  'objecao_ja_temos_processo_interno',  // 56
-  'objecao_fazemos_isso_nos_mesmos',    // 57
-  'objecao_resultados_incertos',        // 58
-  'objecao_contrato_muito_longo',       // 59
-  'resistencia_alta_sem_objecao_clara', // 60
-  'objecao_levantada_mas_superavel',    // 61
-  'sem_objecao_aparente',               // 62
-  'ceticismo_sobre_consultoria',        // 63
-  'desconfianca_em_relacao_ao_metodo',  // 64
+  'objecao_preco_muito_caro',
+  'objecao_sem_tempo_agora',
+  'objecao_ja_tentei_consultoria_antes',
+  'objecao_nao_e_o_momento_certo',
+  'objecao_preciso_pensar_mais',
+  'objecao_preciso_falar_com_socio',
+  'objecao_ja_temos_processo_interno',
+  'objecao_fazemos_isso_nos_mesmos',
+  'objecao_resultados_incertos',
+  'objecao_contrato_muito_longo',
+  'resistencia_alta_sem_objecao_clara',
+  'objecao_levantada_mas_superavel',
+  'sem_objecao_aparente',
+  'ceticismo_sobre_consultoria',
+  'desconfianca_em_relacao_ao_metodo',
 
   // === ESTADO RELACIONAL E EMOCIONAL (15 dimensões) ===
-  'primeiro_contato_sem_historico',     // 65
-  'relacionamento_quente_engajado',     // 66
-  'relacionamento_morno_neutro',        // 67
-  'relacionamento_frio_desengajado',    // 68
-  'lead_reativado_apos_silencio',       // 69
-  'confianca_estabelecida_no_historico', // 70
-  'tom_positivo_e_receptivo',           // 71
-  'tom_negativo_ou_frustrado',          // 72
-  'tom_neutro_sem_emocao_clara',        // 73
-  'lead_animado_e_entusiasmado',        // 74
-  'lead_cansado_ou_esgotado',           // 75
-  'lead_urgente_e_ansioso',             // 76
-  'lead_curioso_e_exploratório',        // 77
-  'respostas_curtas_desinteresse',      // 78
-  'respostas_longas_alto_engajamento',  // 79
+  'primeiro_contato_sem_historico',
+  'relacionamento_quente_engajado',
+  'relacionamento_morno_neutro',
+  'relacionamento_frio_desengajado',
+  'lead_reativado_apos_silencio',
+  'confianca_estabelecida_no_historico',
+  'tom_positivo_e_receptivo',
+  'tom_negativo_ou_frustrado',
+  'tom_neutro_sem_emocao_clara',
+  'lead_animado_e_entusiasmado',
+  'lead_cansado_ou_esgotado',
+  'lead_urgente_e_ansioso',
+  'lead_curioso_e_exploratório',
+  'respostas_curtas_desinteresse',
+  'respostas_longas_alto_engajamento',
 
   // === PRONTIDÃO PARA REUNIÃO (10 dimensões) ===
-  'pronto_para_reuniao_agora',          // 80
-  'quase_pronto_precisa_de_empurrão',   // 81
-  'precisa_mais_nutricao_antes',        // 82
-  'resistente_a_reuniao',               // 83
-  'pediu_reuniao_proativamente',        // 84
-  'aceitou_sugestao_de_reuniao',        // 85
-  'adiou_ou_cancelou_reuniao',          // 86
-  'reuniao_ja_agendada',                // 87
-  'nunca_mencionou_reuniao',            // 88
-  'solicitou_mais_informacoes_antes',   // 89
+  'pronto_para_reuniao_agora',
+  'quase_pronto_precisa_de_empurrão',
+  'precisa_mais_nutricao_antes',
+  'resistente_a_reuniao',
+  'pediu_reuniao_proativamente',
+  'aceitou_sugestao_de_reuniao',
+  'adiou_ou_cancelou_reuniao',
+  'reuniao_ja_agendada',
+  'nunca_mencionou_reuniao',
+  'solicitou_mais_informacoes_antes',
 
   // === TÓPICOS MENCIONADOS NA MENSAGEM (20 dimensões) ===
-  'fala_sobre_time_ou_vendedores',      // 90
-  'fala_sobre_faturamento_ou_receita',  // 91
-  'fala_sobre_crescimento_ou_escala',   // 92
-  'fala_sobre_processo_ou_metodologia', // 93
-  'fala_sobre_marketing_ou_leads',      // 94
-  'fala_sobre_tecnologia_ou_crm',       // 95
-  'fala_sobre_treinamento_ou_capacitacao', // 96
-  'fala_sobre_metas_ou_resultados',     // 97
-  'fala_sobre_mercado_ou_setor',        // 98
-  'fala_sobre_produto_ou_servico',      // 99
-  'fala_sobre_clientes_ou_churn',       // 100
-  'fala_sobre_concorrencia',            // 101
-  'fala_sobre_investimento_ou_budget',  // 102
-  'fala_sobre_problemas_ou_dores',      // 103
-  'fala_sobre_solucoes_ou_melhorias',   // 104
-  'pergunta_sobre_mx3_ou_metodo',       // 105
-  'compartilha_contexto_da_empresa',    // 106
-  'responde_pergunta_anterior',         // 107
-  'mensagem_de_apresentacao',           // 108
-  'mensagem_curta_sem_contexto',        // 109
+  'fala_sobre_time_ou_vendedores',
+  'fala_sobre_faturamento_ou_receita',
+  'fala_sobre_crescimento_ou_escala',
+  'fala_sobre_processo_ou_metodologia',
+  'fala_sobre_marketing_ou_leads',
+  'fala_sobre_tecnologia_ou_crm',
+  'fala_sobre_treinamento_ou_capacitacao',
+  'fala_sobre_metas_ou_resultados',
+  'fala_sobre_mercado_ou_setor',
+  'fala_sobre_produto_ou_servico',
+  'fala_sobre_clientes_ou_churn',
+  'fala_sobre_concorrencia',
+  'fala_sobre_investimento_ou_budget',
+  'fala_sobre_problemas_ou_dores',
+  'fala_sobre_solucoes_ou_melhorias',
+  'pergunta_sobre_mx3_ou_metodo',
+  'compartilha_contexto_da_empresa',
+  'responde_pergunta_anterior',
+  'mensagem_de_apresentacao',
+  'mensagem_curta_sem_contexto',
 
   // === CONTEÚDO DO PLAYBOOK MX3 (13 dimensões) ===
-  'sobre_estruturacao_comercial',       // 110
-  'sobre_diagnostico_mx3',              // 111
-  'sobre_playbook_de_vendas',           // 112
-  'sobre_gestao_de_pipeline',           // 113
-  'sobre_treinamento_de_time',          // 114
-  'sobre_metricas_comerciais',          // 115
-  'sobre_prospecção_ativa',             // 116
-  'sobre_proposta_e_negociacao',        // 117
-  'sobre_pos_venda_e_retencao',         // 118
-  'sobre_previsibilidade_receita',      // 119
-  'sobre_caso_de_sucesso_mx3',          // 120
-  'sobre_objecao_conhecida_mx3',        // 121
-  'sobre_metodologia_de_aceleracao',    // 122
+  'sobre_estruturacao_comercial',
+  'sobre_diagnostico_mx3',
+  'sobre_playbook_de_vendas',
+  'sobre_gestao_de_pipeline',
+  'sobre_treinamento_de_time',
+  'sobre_metricas_comerciais',
+  'sobre_prospecção_ativa',
+  'sobre_proposta_e_negociacao',
+  'sobre_pos_venda_e_retencao',
+  'sobre_previsibilidade_receita',
+  'sobre_caso_de_sucesso_mx3',
+  'sobre_objecao_conhecida_mx3',
+  'sobre_metodologia_de_aceleracao',
 
   // === SINAIS DE QUALIFICAÇÃO FINAL (5 dimensões) ===
-  'altamente_qualificado_perfil_ideal', // 123
-  'parcialmente_qualificado',           // 124
-  'fora_do_perfil_ideal_mx3',           // 125
-  'informacao_insuficiente',            // 126
-  'lead_para_descartar',                // 127
+  'altamente_qualificado_perfil_ideal',
+  'parcialmente_qualificado',
+  'fora_do_perfil_ideal_mx3',
+  'informacao_insuficiente',
+  'lead_para_descartar',
 ] as const
 
 export const EMBEDDING_DIM = SEMANTIC_DIMENSIONS.length // 128
@@ -175,19 +175,23 @@ REGRAS:
 - Cada valor DEVE estar entre -1.0 e 1.0`
 
 export class AnthropicService {
-  private client: Anthropic
-  readonly model: string
-  readonly embeddingModel: string
+  // Lazy-initialized — created only on first use, after dotenv has loaded
+  private _client: Anthropic | null = null
+  readonly model = 'claude-sonnet-4-6'
+  readonly embeddingModel = 'claude-3-haiku-20240307'
 
-  constructor() {
-    const apiKey = process.env.ANTHROPIC_API_KEY
-    if (!apiKey) {
-      throw new Error('ANTHROPIC_API_KEY is required')
+  private get client(): Anthropic {
+    if (!this._client) {
+      const apiKey = process.env.ANTHROPIC_API_KEY
+      if (!apiKey) {
+        throw new Error(
+          'ANTHROPIC_API_KEY is required. ' +
+          'Make sure .env is present and dotenv/config is imported before using this service.'
+        )
+      }
+      this._client = new Anthropic({ apiKey })
     }
-
-    this.client = new Anthropic({ apiKey })
-    this.model = 'claude-sonnet-4-6'
-    this.embeddingModel = 'claude-3-haiku-20240307'
+    return this._client
   }
 
   /**
@@ -203,12 +207,7 @@ export class AnthropicService {
       model: this.model,
       max_tokens: params.maxTokens ?? 1024,
       system: params.systemPrompt,
-      messages: [
-        {
-          role: 'user',
-          content: params.userMessage,
-        },
-      ],
+      messages: [{ role: 'user', content: params.userMessage }],
     })
 
     const finalMessage = await stream.finalMessage()
@@ -223,7 +222,6 @@ export class AnthropicService {
 
   /**
    * Envia uma mensagem e faz parse automático do JSON retornado.
-   * Garante que o agente retornou JSON válido.
    */
   async chatJSON<T>(params: {
     systemPrompt: string
@@ -232,7 +230,6 @@ export class AnthropicService {
   }): Promise<T> {
     const raw = await this.chat(params)
 
-    // Remove blocos de markdown caso o modelo os inclua
     const cleaned = raw
       .replace(/^```(?:json)?\s*/i, '')
       .replace(/\s*```\s*$/i, '')
@@ -253,9 +250,6 @@ export class AnthropicService {
    * Estratégia: Claude pontua 128 dimensões semânticas fixas de domínio B2B/vendas.
    * O espaço vetorial é CONSISTENTE entre todas as chamadas, garantindo que
    * cosine similarity no pgvector produza resultados semanticamente relevantes.
-   *
-   * Dimensões cobertas: dores comerciais, urgência, perfil empresa, objeções,
-   * estado emocional, prontidão para reunião, tópicos e conteúdo do playbook MX3.
    */
   async generateEmbedding(text: string): Promise<number[]> {
     const response = await this.client.messages.create({
@@ -275,7 +269,6 @@ export class AnthropicService {
       throw new Error('Claude Haiku returned no text for embedding')
     }
 
-    // Remove markdown se presente
     const cleaned = textBlock.text
       .replace(/^```(?:json)?\s*/i, '')
       .replace(/\s*```\s*$/i, '')
@@ -300,7 +293,6 @@ export class AnthropicService {
       )
     }
 
-    // Valida e limita cada valor ao intervalo [-1, 1]
     return raw.map((v, i) => {
       const n = typeof v === 'number' ? v : parseFloat(String(v))
       if (isNaN(n)) {

@@ -14,19 +14,25 @@ import type {
 } from '../types/index.js'
 
 export class SupabaseService {
-  private client: SupabaseClient
+  private _client: SupabaseClient | null = null
 
-  constructor() {
-    const url = process.env.SUPABASE_URL
-    const key = process.env.SUPABASE_SERVICE_KEY
+  private get client(): SupabaseClient {
+    if (!this._client) {
+      const url = process.env.SUPABASE_URL
+      const key = process.env.SUPABASE_SERVICE_KEY
 
-    if (!url || !key) {
-      throw new Error('SUPABASE_URL and SUPABASE_SERVICE_KEY are required')
+      if (!url || !key) {
+        throw new Error(
+          'SUPABASE_URL and SUPABASE_SERVICE_KEY are required. ' +
+          'Make sure .env is present and dotenv/config is imported before using this service.'
+        )
+      }
+
+      this._client = createClient(url, key, {
+        auth: { persistSession: false },
+      })
     }
-
-    this.client = createClient(url, key, {
-      auth: { persistSession: false },
-    })
+    return this._client
   }
 
   // ──────────────────────────────────────────────

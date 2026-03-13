@@ -10,24 +10,16 @@ export interface ZapiResponse {
 }
 
 export class ZapiService {
-  private baseUrl: string
-  private instanceId: string
-  private token: string
-  private securityToken: string | undefined
+  private get instanceId(): string {
+    const id = process.env.ZAPI_INSTANCE_ID
+    if (!id) throw new Error('ZAPI_INSTANCE_ID is required. Make sure .env is loaded before using ZapiService.')
+    return id
+  }
 
-  constructor() {
-    const baseUrl = process.env.ZAPI_BASE_URL ?? 'https://api.z-api.io'
-    const instanceId = process.env.ZAPI_INSTANCE_ID
+  private get token(): string {
     const token = process.env.ZAPI_TOKEN
-
-    if (!instanceId || !token) {
-      throw new Error('ZAPI_INSTANCE_ID and ZAPI_TOKEN are required')
-    }
-
-    this.baseUrl = baseUrl
-    this.instanceId = instanceId
-    this.token = token
-    this.securityToken = process.env.ZAPI_SECURITY_TOKEN
+    if (!token) throw new Error('ZAPI_TOKEN is required. Make sure .env is loaded before using ZapiService.')
+    return token
   }
 
   private get headers(): Record<string, string> {
@@ -36,14 +28,16 @@ export class ZapiService {
       'Client-Token': this.token,
     }
     // Security token is required on some Zapi plans
-    if (this.securityToken) {
-      headers['client-token'] = this.securityToken
+    const securityToken = process.env.ZAPI_SECURITY_TOKEN
+    if (securityToken) {
+      headers['client-token'] = securityToken
     }
     return headers
   }
 
   private get apiBase(): string {
-    return `${this.baseUrl}/instances/${this.instanceId}/token/${this.token}`
+    const baseUrl = process.env.ZAPI_BASE_URL ?? 'https://api.z-api.io'
+    return `${baseUrl}/instances/${this.instanceId}/token/${this.token}`
   }
 
   /**
