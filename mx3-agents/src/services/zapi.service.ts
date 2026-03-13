@@ -13,6 +13,7 @@ export class ZapiService {
   private baseUrl: string
   private instanceId: string
   private token: string
+  private securityToken: string | undefined
 
   constructor() {
     const baseUrl = process.env.ZAPI_BASE_URL ?? 'https://api.z-api.io'
@@ -26,13 +27,19 @@ export class ZapiService {
     this.baseUrl = baseUrl
     this.instanceId = instanceId
     this.token = token
+    this.securityToken = process.env.ZAPI_SECURITY_TOKEN
   }
 
   private get headers(): Record<string, string> {
-    return {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'Client-Token': this.token,
     }
+    // Security token is required on some Zapi plans
+    if (this.securityToken) {
+      headers['client-token'] = this.securityToken
+    }
+    return headers
   }
 
   private get apiBase(): string {

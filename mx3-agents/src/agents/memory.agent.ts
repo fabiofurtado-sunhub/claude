@@ -53,7 +53,8 @@ export class MemoryAgent {
         : ''
 
     const weights = context.agent_weights
-    const topAgent = Object.entries(weights).sort(([, a], [, b]) => b - a)[0]
+    const sortedAgents = Object.entries(weights).sort(([, a], [, b]) => b - a)
+    const topAgent = sortedAgents[0] ?? ['sdr', 1.0]
 
     return `
 === CONTEXTO DO LEAD ===
@@ -67,7 +68,7 @@ Dor principal registrada: ${context.main_pain ?? 'Não identificada'}
 
 === PESOS DOS AGENTES (histórico de performance com esse lead) ===
 SDR: ${weights.sdr.toFixed(2)} | BDR: ${weights.bdr.toFixed(2)} | Copywriter: ${weights.copywriter.toFixed(2)} | Follow-up: ${weights.followup.toFixed(2)}
-Agente mais eficaz: ${topAgent[0].toUpperCase()} (score ${topAgent[1].toFixed(2)})
+Agente mais eficaz: ${topAgent[0].toUpperCase()} (score ${(topAgent[1] as number).toFixed(2)})
 
 === HISTÓRICO DA CONVERSA (últimas mensagens) ===
 ${historyLines || 'Primeiro contato — sem histórico'}

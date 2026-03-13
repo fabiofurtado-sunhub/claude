@@ -114,6 +114,10 @@ export class AnthropicService {
       data: Array<{ embedding: number[] }>
     }
 
-    return data.data[0].embedding
+    const embedding = data.data[0]?.embedding
+    if (!embedding) {
+      throw new Error('No embedding returned from OpenAI API')
+    }
+    return embedding
   }
 }
