@@ -1,3 +1,6 @@
+// MUST be first — loads .env before any service is instantiated
+import 'dotenv/config'
+
 import { createServer, IncomingMessage, ServerResponse } from 'http'
 import { AnthropicService } from '../services/anthropic.service.js'
 import { SupabaseService } from '../services/supabase.service.js'
@@ -16,6 +19,7 @@ import type {
 
 // ──────────────────────────────────────────────
 // INICIALIZAÇÃO DOS SERVIÇOS (singleton)
+// Instanciados APÓS o dotenv carregar as variáveis de ambiente
 // ──────────────────────────────────────────────
 
 const anthropic = new AnthropicService()
@@ -63,14 +67,14 @@ async function processIncomingMessage(payload: ZapiWebhookPayload): Promise<void
   // ── STEP 3: 4 Agentes em PARALELO ──
   console.log(`[Agents] Running SDR, BDR, Copywriter, Followup in parallel...`)
 
-  // Follow-up roda primeiro para alimentar Copywriter com temperatura
   // SDR e Follow-up são independentes — rodam em paralelo
+  // Follow-up alimenta Copywriter com temperatura relacional
   const [sdrContribution, followupContribution] = await Promise.all([
     sdrAgent.analyze(message, context),
     followupAgent.analyze(message, context, daysSinceLastContact),
   ])
 
-  // BDR usa o resultado do SDR; Copywriter usa temperatura do Follow-up
+  // BDR usa resultado do SDR; Copywriter usa temperatura do Follow-up
   const [bdrContribution, copywriterContribution] = await Promise.all([
     bdrAgent.analyze(message, context, sdrContribution),
     copywriterAgent.analyze(message, context, {
@@ -229,7 +233,6 @@ async function handleRequest(
 
   // ── Webhook Zapi ──
   if (path === '/webhook/zapi' && req.method === 'POST') {
-    // Valida secret
     if (!validateWebhookSecret(req)) {
       res.writeHead(401, { 'Content-Type': 'application/json' })
       res.end(JSON.stringify({ error: 'Unauthorized' }))
@@ -265,7 +268,6 @@ async function handleRequest(
     res.writeHead(202, { 'Content-Type': 'application/json' })
     res.end(JSON.stringify({ status: 'accepted' }))
 
-    // Processa de forma assíncrona
     processIncomingMessage(payload).catch((err) => {
       console.error('[Webhook] processIncomingMessage error:', err)
     })
