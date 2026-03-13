@@ -2,7 +2,7 @@
  * Script de seed: indexa o playbook MX3 no banco vetorial.
  * Execute: npm run seed
  *
- * Pré-requisito: OPENAI_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_KEY no .env
+ * Pré-requisito: ANTHROPIC_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_KEY no .env
  */
 
 import 'dotenv/config'

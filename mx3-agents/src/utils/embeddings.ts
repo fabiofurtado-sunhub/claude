@@ -3,6 +3,10 @@ import { SupabaseService } from '../services/supabase.service.js'
 
 /**
  * Utilitário para indexar conteúdo no banco vetorial (pgvector).
+ * Embeddings gerados pelo Claude Haiku (claude-3-haiku-20240307)
+ * via pontuação de 128 dimensões semânticas fixas de domínio B2B/vendas.
+ * Não há dependência de OpenAI ou qualquer outro provider externo.
+ *
  * Use para alimentar a base de conhecimento da MX3 com:
  * - Playbooks de vendas
  * - Casos de sucesso

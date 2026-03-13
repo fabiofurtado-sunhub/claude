@@ -56,11 +56,13 @@ create index if not exists messages_created_at_idx on messages(created_at desc);
 
 -- ============================================================
 -- EMBEDDINGS (RAG com pgvector)
+-- Dimensão: 128 — gerado pelo Claude Haiku (claude-3-haiku-20240307)
+-- via pontuação de 128 dimensões semânticas fixas de domínio B2B/vendas.
 -- ============================================================
 create table if not exists embeddings (
   id uuid primary key default gen_random_uuid(),
   content text not null,
-  embedding vector(1536),
+  embedding vector(128),
   source_type text check (
     source_type in ('playbook', 'conversa', 'case', 'objecao')
   ),
@@ -69,10 +71,11 @@ create table if not exists embeddings (
 );
 
 -- Índice para busca vetorial (cosine similarity)
+-- lists = 20 é adequado para tabelas com até 200k linhas em dim 128
 create index if not exists embeddings_vector_idx
   on embeddings
   using ivfflat (embedding vector_cosine_ops)
-  with (lists = 100);
+  with (lists = 20);
 
 -- ============================================================
 -- INTERAÇÕES COMPLETAS
@@ -124,7 +127,7 @@ create index if not exists agent_performance_agent_name_idx on agent_performance
 -- FUNÇÃO: Busca vetorial por similaridade
 -- ============================================================
 create or replace function match_embeddings(
-  query_embedding vector(1536),
+  query_embedding vector(128),
   match_threshold float default 0.7,
   match_count int default 5
 )
