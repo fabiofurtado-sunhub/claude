@@ -8,10 +8,10 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node dist/webhook/index.js",
-    "dev": "tsx watch src/webhook/index.ts",
+    "start": "node --env-file=.env dist/webhook/index.js",
+    "dev": "node --env-file=.env ./node_modules/.bin/tsx watch src/webhook/index.ts",
     "typecheck": "tsc --noEmit",
-    "seed": "tsx src/scripts/seed-embeddings.ts",
+    "seed": "node --env-file=.env ./node_modules/.bin/tsx src/scripts/seed-embeddings.ts",
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {
